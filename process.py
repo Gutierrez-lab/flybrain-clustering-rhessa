@@ -18,6 +18,7 @@ parser.add_argument('--edge_csv', default="ovi_comb_full_formatted.txt", help="N
 parser.add_argument('--cluster_dir', default='oviIN_celltype/ovi_combined/full/oviIN_combined_type_v', help="Directory with cluster info. Gets version appended")
 parser.add_argument('--output_dir', default="oviIN_celltype/ovi_combined/full/preprocessed-v", help="Output directory, which will have version appended. Created if doesn't exist.")
 parser.add_argument('--loglevel', choices=["debug", "info", "warning", "error", "critical"], default="info", help="Level of verbosity")
+parser.add_argument('--auth_file', default="auth_token", help="File with neuprint auth token")
 parser.add_argument('-f', '--force', action='store_true', help="Overwrite output files if they already exist")
 args = parser.parse_args()
 
@@ -27,7 +28,7 @@ logging.basicConfig(format="%(asctime)s  %(module)s> %(levelname)s: %(message)s"
 
 # locate all the relevant files
 path = args.path 
-cluster_dir = args.cluster_dir + args.hemibrain_version
+cluster_dir = args.cluster_dir 
 output_dir = args.output_dir + args.hemibrain_version
 if not os.path.isdir(output_dir):
     logging.info("Creating path %s", output_dir)
@@ -65,7 +66,7 @@ logging.debug("path = %s", path)
 logging.debug("cluster_dir = %s", cluster_dir)
 
 logging.info("Attempting to read neuron csv with pandas: %s", neuron_csv)
-local_df = pd.read_csv(neuron_csv)
+local_df = pd.read_csv(neuron_csv, header=None, delimiter=' ', names=["bodyId", "key"])
 
 # Read cluster info and prepare node df
 for filename in os.listdir(cluster_dir):
@@ -105,13 +106,13 @@ for filename in os.listdir(cluster_dir):
     file = open(os.path.join(cluster_dir, filename), 'r')
     local_df[cluster_name] = [int(line.strip()) for line in file.readlines()]
     file.close()
-
-local_df.drop(columns=["type", "instance"], inplace=True)
+#print(local_df.head())
+#local_df.drop(columns=["type", "instance"], inplace=True)
 logging.info("Finished constructing local neuron df:")
 print(local_df.head())
 print()
 
-logging.info("Fetching neuron datafrom from neuprint")
+logging.info("Fetching neuron dataframe from neuprint")
 neuprint_df, conn_df = fetch_neurons(local_df["bodyId"])
 neuprint_df.fillna(value={"type": "None", "instance": "None"}, inplace=True)
 print(neuprint_df.head())
