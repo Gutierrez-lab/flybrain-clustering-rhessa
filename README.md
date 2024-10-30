@@ -3,8 +3,6 @@ Clustering analysis of the *oviIN* connectome. Based on the *Drosophila melanoga
 
 The notebooks are used to do large dataset analysis and includes the cluster identities determined by maximizing [generalized modularity density](https://github.com/prameshsingh/generalized-modularity-density).
 
-Any questions can be directed to [Alex Kunin](https://github.com/sekunder)
-
 
 # Set up
 
@@ -24,7 +22,7 @@ In order to use these notebooks, you will need an authorization token to access 
 3. Go to your account (menu in the top right of the screen)
 4. Copy the auth token to a plain text file in the same directory as the notebooks and name it `flybrain.auth`
 
-# Notebook Information
+# Folder Information
 - The APL folder contains the data used to create the figures in APL/Figures-APL
 - The oviIN folder contains the data used to create the figures in Figures-oviIN
 - The joint-marginal plots were created in the files called joint_marginals_***.ipynb for the oviIN and APL substituted for the *** respectively
