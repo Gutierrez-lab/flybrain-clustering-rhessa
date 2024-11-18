@@ -4,7 +4,7 @@ import networkx as nx
 from time import time
 import pandas as pd
 import itertools
-from .graph_creation import *
+from graph_creation import *
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from itertools import repeat
 from functools import partial
